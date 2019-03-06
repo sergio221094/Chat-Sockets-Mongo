@@ -1,15 +1,15 @@
 {
-  "name": "chat-node-mongo",
-  "version": "1.0.0",
-  "description": "Simple chat using sockets",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "mongodb": "^3.1.13",
-    "socket.io": "^2.2.0"
-  }
+    "name": "chat-node-mongo",
+    "version": "1.0.0",
+    "description": "Simple chat using sockets",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "mongodb": "^2.2.30",
+        "socket.io": "^2.0.3"
+    }
 }

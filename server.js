@@ -1,63 +1,63 @@
 const mongo = require('mongodb').MongoClient;
 const client = require('socket.io').listen(4000).sockets;
 
-//Conectar a mongodb
-mongo.connect('mongodb://localhost:27017/mongochat', function(err, db) {
+// Connect to mongo
+mongo.connect('mongodb://127.0.0.1/mongochat', function(err, db) {
     if (err) {
         throw err;
     }
 
-    console.log('!Base de datos conectada!');
+    console.log('MongoDB connected...');
 
-    //Conectar el socket
-    client.on('connect', function(socket) {
+    // Connect to Socket.io
+    client.on('connection', function(socket) {
         let chat = db.collection('chats');
 
-        //Función para conocer el estado
+        // Create function to send status
         sendStatus = function(s) {
-            socket.emit('estado', s);
+            socket.emit('status', s);
         }
 
-        //Obtener chats de mongodb
-        chat.find().limit(100).sort({ _id: 1 }).toArray(function(err, result) {
+        // Get chats from mongo collection
+        chat.find().limit(100).sort({ _id: 1 }).toArray(function(err, res) {
             if (err) {
                 throw err;
             }
+
+            // Emit the messages
             socket.emit('output', res);
         });
 
-        //Manejando eventos de entrada
-        socket.on('entrada', function(data) {
+        // Handle input events
+        socket.on('input', function(data) {
             let name = data.name;
             let message = data.message;
 
-            //Verificar nombre y mensajes
+            // Check for name and message
             if (name == '' || message == '') {
-                //Enviar estado de error
-                sendStatus('Ingresa un nombre y un mensaje');
+                // Send error status
+                sendStatus('Please enter a name and message');
             } else {
-                //Insertar mensaje
-                chat.insert({
-                    name: name,
-                    message: message
-                }, function() {
-                    client.emit('salida', [data]);
+                // Insert message
+                chat.insert({ name: name, message: message }, function() {
+                    client.emit('output', [data]);
 
-                    //Enviar estado del objeto
+                    // Send status object
                     sendStatus({
-                        message: 'Mensaje enviado',
+                        message: 'Message sent',
                         clear: true
-                    })
+                    });
                 });
             }
         });
-        //Botón limpiar
+
+        // Handle clear
         socket.on('clear', function(data) {
-            //Eliminar chats
+            // Remove all chats from collection
             chat.remove({}, function() {
-                //Notificar que todo se elimino
+                // Emit cleared
                 socket.emit('cleared');
-            })
+            });
         });
     });
 });
