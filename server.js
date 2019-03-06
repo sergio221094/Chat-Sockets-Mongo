@@ -1,6 +1,15 @@
 require('./config/config.js');
 const mongo = require('mongodb').MongoClient;
 const client = require('socket.io').listen(4000).sockets;
+const express = require('express');
+
+const app = express();
+
+app.use(require('./routes'));
+
+app.listen(process.env.PORT, () => {
+    console.log("Escuchando el puerto:", process.env.PORT);
+});
 
 // Connect to mongo
 mongo.connect(process.env.URLDB, function(err, db) {
