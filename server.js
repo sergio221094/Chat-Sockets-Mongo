@@ -1,8 +1,9 @@
+require('./config/config.js');
 const mongo = require('mongodb').MongoClient;
 const client = require('socket.io').listen(4000).sockets;
 
 // Connect to mongo
-mongo.connect('mongodb://127.0.0.1/mongochat', function(err, db) {
+mongo.connect(process.env.URLDB, function(err, db) {
     if (err) {
         throw err;
     }
