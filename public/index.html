@@ -59,11 +59,11 @@
                 if (s !== statusDefault) {
                     var delay = setTimeout(function() {
                         setStatus(statusDefault);
-                    }, 4000);
+                    }, 80);
                 }
             }
             // Connect to socket.io
-        var socket = io.connect('http://127.0.0.1:4000');
+        var socket = io.connect('https://chat-mongo-sockets.herokuapp.com');
         // Check for connection
         if (socket !== undefined) {
             console.log('Connected to socket...');
@@ -116,6 +116,3 @@
 </body>
 
 </html>
-
-
-Adriana Patricia Calambas Ordoñez Carrera 2 No. 16N-18, Casa 100 Barrio: Condominio Altos de tulcan 34564014 de Popayán 3148726033 adivaleri07@gmail.com

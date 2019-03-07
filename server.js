@@ -1,7 +1,9 @@
 require('./config/config.js');
 const mongo = require('mongodb').MongoClient;
-const client = require('socket.io').listen(4000).sockets;
+const client = require('socket.io').listen(80).sockets;
 const express = require('express');
+
+
 
 const app = express();
 
@@ -21,6 +23,7 @@ mongo.connect(process.env.URLDB, function(err, db) {
 
     // Connect to Socket.io
     client.on('connection', function(socket) {
+        console.log('Usuario conectado');
         let chat = db.collection('chats');
 
         // Create function to send status
