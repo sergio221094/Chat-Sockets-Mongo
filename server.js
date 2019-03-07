@@ -13,7 +13,7 @@ app.listen(process.env.PORT, () => {
     console.log("Escuchando el puerto:", process.env.PORT);
 });
 
-// Connect to mongo
+// Connect to mongobd
 mongo.connect(process.env.URLDB, function(err, db) {
     if (err) {
         throw err;
